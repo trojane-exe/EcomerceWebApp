@@ -1,0 +1,3 @@
+try to link emails with google service to send a validation request before using the mail
+
+** user can change the email of hos account but before i need to check if the email already exist , also , i must a different page for this process
