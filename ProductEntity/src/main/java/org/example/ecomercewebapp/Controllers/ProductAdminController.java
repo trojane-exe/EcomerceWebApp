@@ -5,6 +5,7 @@ import lombok.Data;
 import org.example.ecomercewebapp.Model.Product;
 import org.example.ecomercewebapp.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,9 @@ public class ProductAdminController {
 
     private final ProductService productService;
 
+
     @Autowired
-    public ProductAdminController(ProductService productService){
+    public ProductAdminController(@Qualifier("productServiceAdminImpl") ProductService productService){
         this.productService = productService;
     }
 
@@ -48,12 +50,14 @@ public class ProductAdminController {
         Map<String,String> response = new HashMap<>();
         List<Product> products = productService.searchByCategory(categorie);
         if(products.isEmpty()){
-            response.put("NOT FOUND","Enable to find compatible products");
-            return ResponseEntity.badRequest().body(response);
+            ProductUserController.getResonse();
+            /*response.put("NOT FOUND","Enable to find compatible products");
+            return ResponseEntity.badRequest().body(response);*/
         }
         else{
             return ResponseEntity.ok(products);
         }
+        return null;
     }
 
 
@@ -132,7 +136,20 @@ public class ProductAdminController {
                 yield ResponseEntity.badRequest().body(response);
             }
         };
+    }
 
+    @PutMapping("/update-product/{id}")
+    public ResponseEntity<?>updateProduct(@PathVariable("id") Integer id,@ModelAttribute Product product,@RequestParam("img") MultipartFile img) throws IOException {
+        Map<String,String> response = new HashMap<>();
+        String result = productService.updateProduct(id,product,img);
+        if(result.equals("ok")){
+            response.put("SUCCESS","Product updated successfully");
+            return ResponseEntity.ok().body(response);
+        }
+        else{
+            response.put("ENABLE TO UPDATE","Invalid inputs");
+            return ResponseEntity.badRequest().body(response);
+        }
 
     }
 }

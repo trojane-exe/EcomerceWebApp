@@ -1,12 +1,27 @@
 package org.example.ecomercewebapp.Services;
 
+import jakarta.transaction.Transactional;
+import lombok.Data;
 import org.example.ecomercewebapp.Model.Product;
+import org.example.ecomercewebapp.Repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
+@Service
+@Data
+@Transactional
+
 public class ProductServiceImpl implements ProductService{
+
+
+    private final ProductRepository productRepository;
+
+    @Autowired
+    public ProductServiceImpl (ProductRepository pr){this.productRepository = pr;}
     @Override
     public String addProduct(Product product, MultipartFile file) throws IOException {
         return null;
@@ -18,9 +33,10 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public String updateProduct(Integer id, Product product) {
+    public String updateProduct(Integer id, Product product, MultipartFile file) throws IOException {
         return null;
     }
+
 
     @Override
     public String deleteProduct(Integer id) {
@@ -29,7 +45,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<Product> allProducts() {
-        return null;
+        return productRepository.findAll();
     }
 
     @Override
@@ -39,7 +55,8 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<Product> searchByName(String name) {
-        return null;
+        return productRepository.findByName(name);
+
     }
 
     @Override
@@ -49,6 +66,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<Product> searchByCategory(String category) {
-        return null;
+        return productRepository.findByCategorie(category);
+
     }
 }

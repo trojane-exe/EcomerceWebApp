@@ -16,7 +16,7 @@ public interface ProductService {
 
     Boolean isValidImageType(String type);
 
-    public String updateProduct(Integer id, Product product);
+    public String updateProduct(Integer id, Product product, MultipartFile file) throws IOException;
     public String deleteProduct(Integer id);
     public List<Product> allProducts();
     public Product getProduct(Integer id);

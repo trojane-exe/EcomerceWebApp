@@ -62,7 +62,7 @@ public class ProductServiceAdminImpl implements ProductService{
     }
 
     @Override
-    public String updateProduct(Integer id, Product product) {
+    public String updateProduct(Integer id, Product product,MultipartFile file) throws IOException {
 
 
         Product oldproduct = productRepository.findById(id).orElse(null);
@@ -83,12 +83,16 @@ public class ProductServiceAdminImpl implements ProductService{
                 oldproduct.setPrix(product.getPrix());
             }
             if(product.getStock()!=null && !(product.getStock()<0)){
-
+                oldproduct.setStock(product.getStock());
             }
+            if(file!=null && !file.isEmpty()){
+                if(isValidImageType(file.getContentType())){
+                    oldproduct.setImage(file.getBytes());
+                }
+            }
+            productRepository.save(oldproduct);
+            return "ok";
         }
-
-
-        return null;
     }
 
     @Override
