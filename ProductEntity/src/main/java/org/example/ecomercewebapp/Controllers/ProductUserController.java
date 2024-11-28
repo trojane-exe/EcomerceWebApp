@@ -33,7 +33,7 @@ public class ProductUserController {
 
 
 
-    public static void getResonse(){
+    public static void getResponse(){
         Map<String,String> response = new HashMap<>();
         response.put("NOT FOUND","Enable to find compatible products");
         ResponseEntity.badRequest().body(response);
@@ -70,7 +70,7 @@ public class ProductUserController {
         if(products.isEmpty()){
             /*response.put("NOT FOUND","Enable to find compatible products");
             return ResponseEntity.badRequest().body(response);*/
-            getResonse();
+            getResponse();
         }
         else{
             return ResponseEntity.ok(products);

@@ -50,7 +50,7 @@ public class ProductAdminController {
         Map<String,String> response = new HashMap<>();
         List<Product> products = productService.searchByCategory(categorie);
         if(products.isEmpty()){
-            ProductUserController.getResonse();
+            ProductUserController.getResponse();
             /*response.put("NOT FOUND","Enable to find compatible products");
             return ResponseEntity.badRequest().body(response);*/
         }
@@ -58,6 +58,12 @@ public class ProductAdminController {
             return ResponseEntity.ok(products);
         }
         return null;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@RequestParam("id") Integer id){
+        Map<String,String> response = new HashMap<>();
+        String result = productService.sea
     }
 
 

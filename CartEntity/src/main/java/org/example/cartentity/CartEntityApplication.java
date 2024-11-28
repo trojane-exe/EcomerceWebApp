@@ -1,15 +1,17 @@
-package org.example.ecomercewebapp;
+package org.example.cartentity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class EcomerceWebAppApplication {
+@EnableFeignClients
+public class CartEntityApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EcomerceWebAppApplication.class, args);
+        SpringApplication.run(CartEntityApplication.class, args);
     }
 
 }
