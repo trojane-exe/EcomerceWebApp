@@ -72,7 +72,7 @@ public class ProductAdminController {
     }
 
 
-    @PatchMapping("/update-stock/{id}")
+    @PutMapping("/update-stock/{id}")
         public ResponseEntity<?>updateStock(@PathVariable("id") Integer id ,@RequestParam("stock") int stock) {
         Map<String, String> response = new HashMap<>();
         String result = productService.updateStock(id, stock);
@@ -96,7 +96,7 @@ public class ProductAdminController {
         return ResponseEntity.ok(products);
     }
 
-    @PatchMapping("/decreaseStock")
+    @PutMapping("/decreaseStock")
     public ResponseEntity<?>decreaseStock(@RequestParam("productId")Integer productId,@RequestParam("qte")int qte){
         Map<String,String> response = new HashMap<>();
         String result = productService.decreaseStock(productId,qte);
