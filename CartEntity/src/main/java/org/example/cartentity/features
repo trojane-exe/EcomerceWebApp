@@ -1,0 +1,21 @@
+                    //if the cart is not created yet , (case of a new user) the system will automatically detect it and create the new cart for this user
+
+                    cart = new Cart();
+                    createCart(userId);
+                    CartItems cartItems = new CartItems();
+                    cartItems.setCartId(cart.getCartId());
+                    cartItems.setProductId(productId);
+                    cartItems.setQuantity(qte);
+                    cartItemsRepository.save(cartItems);
+                    cart.setUpdatedAt(LocalDateTime.now());
+                    cart.setStatus(StatusEnum.Active);
+                    List<CartItems> items = Collections.singletonList(cartItems);
+                    cart.setCartItems(items);
+                    cartRepository.save(cart);
+                    return "ok";
+
+!!!!!
+for this code , i must check if it will actually get the cartId automatically right after the creation , otherwise i must change it to another code
+
+
+tomorrow inchaalah I need to add a new product stock methode where i update the stock in order to decrease it by the quantity added to cart

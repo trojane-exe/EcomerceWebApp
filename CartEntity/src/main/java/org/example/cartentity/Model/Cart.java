@@ -20,18 +20,15 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cartId;
 
+    @Column(unique = true)
     private Integer userId;
 
-    @ElementCollection
-    private List<Integer> productId = new ArrayList<>();
-
-    @Transient
-    private List<ProductDTO> cartItems ;
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,  orphanRemoval = true)
+    private List<CartItems> cartItems ;
 
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
-
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt ;
     private LocalDateTime updatedAt;
 
 
