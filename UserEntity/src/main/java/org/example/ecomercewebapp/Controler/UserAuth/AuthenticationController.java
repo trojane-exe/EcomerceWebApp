@@ -20,6 +20,8 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register((request)));
     }
 
+
+    //une page d'inscription pour les admins, l'url est connu par les admins uniquement
     @PostMapping("/admin-privilege/creation")
     public ResponseEntity<AuthenticationResponse> registerAdmin(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(service.registerAdmin(request));

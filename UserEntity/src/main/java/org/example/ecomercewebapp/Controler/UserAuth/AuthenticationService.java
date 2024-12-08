@@ -3,10 +3,12 @@ package org.example.ecomercewebapp.Controler.UserAuth;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.example.ecomercewebapp.FeignClient.CartFeignClient;
 import org.example.ecomercewebapp.JWT.JwtService;
 import org.example.ecomercewebapp.Model.RoleEnum;
 import org.example.ecomercewebapp.Model.Utilisateur;
 import org.example.ecomercewebapp.Repository.UserRepository;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +26,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final CartFeignClient feignClient;
 
     public AuthenticationResponse register(RegisterRequest request){
         Utilisateur utilisateur = new Utilisateur();
@@ -33,6 +36,7 @@ public class AuthenticationService {
         utilisateur.setRole(RoleEnum.User);
         utilisateur.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(utilisateur);
+        feignClient.createCart(utilisateur.getUserId());
         String jwtToken = jwtService.generateToken(null,new org.springframework.security.core.userdetails.User(
                 utilisateur.getEmail(),
                 utilisateur.getPassword(),
@@ -49,6 +53,7 @@ public class AuthenticationService {
         utilisateur.setRole(RoleEnum.Admin);
         utilisateur.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(utilisateur);
+        feignClient.createCart(utilisateur.getUserId());
         String jwtToken = jwtService.generateToken(null,new org.springframework.security.core.userdetails.User(
                 utilisateur.getEmail(),
                 utilisateur.getPassword(),

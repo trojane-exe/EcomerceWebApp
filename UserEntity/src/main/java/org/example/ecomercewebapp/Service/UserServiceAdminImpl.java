@@ -2,6 +2,7 @@ package org.example.ecomercewebapp.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.example.ecomercewebapp.FeignClient.CartFeignClient;
 import org.example.ecomercewebapp.JWT.JwtService;
 import org.example.ecomercewebapp.Model.RoleEnum;
 import org.example.ecomercewebapp.Model.Utilisateur;
@@ -23,12 +24,14 @@ public class UserServiceAdminImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final CartFeignClient feignClient;
 
     @Autowired
-    public UserServiceAdminImpl(PasswordEncoder ps, UserRepository ur, JwtService jwt){
+    public UserServiceAdminImpl(PasswordEncoder ps, UserRepository ur, JwtService jwt, CartFeignClient feignClient){
         this.passwordEncoder = ps;
         this.userRepository = ur;
         this.jwtService = jwt;
+        this.feignClient = feignClient;
     }
     @Override
     public String addUSer(Utilisateur user) {
@@ -46,7 +49,9 @@ public class UserServiceAdminImpl implements UserService{
                         Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + RoleEnum.User.name()))
                 ));
                 userRepository.save(user);
-                return "user";
+                feignClient.createCart(user.getUserId()).getBody();
+
+                return "ok";
             } else if (user.getRole().equals(RoleEnum.User)) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
                 jwtService.generateToken(null,new org.springframework.security.core.userdetails.User(
@@ -55,6 +60,7 @@ public class UserServiceAdminImpl implements UserService{
                         Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + RoleEnum.User.name()))
                 ));
                 userRepository.save(user);
+                feignClient.createCart(user.getUserId()).getBody();
                 return "user";
 
             } else{
@@ -66,6 +72,7 @@ public class UserServiceAdminImpl implements UserService{
                         Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
                 ));
                 userRepository.save(user);
+                feignClient.createCart(user.getUserId()).getBody();
                 return "admin";
 
             }

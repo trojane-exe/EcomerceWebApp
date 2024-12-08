@@ -35,20 +35,21 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String addUSer(Utilisateur user) {
-        if (user.getNom()==null || user.getPrenom()==null || user.getEmail()==null|| user.getPassword()==null) {
-            return "error";
-        }
-        else{
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole(RoleEnum.User);
-            jwtService.generateToken(null,new org.springframework.security.core.userdetails.User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + RoleEnum.User.name()))
-            ));
-            userRepository.save(user);
-            return null;
-        }
+//        if (user.getNom()==null || user.getPrenom()==null || user.getEmail()==null|| user.getPassword()==null) {
+//            return "error";
+//        }
+//        else{
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//            user.setRole(RoleEnum.User);
+//            jwtService.generateToken(null,new org.springframework.security.core.userdetails.User(
+//                    user.getEmail(),
+//                    user.getPassword(),
+//                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + RoleEnum.User.name()))
+//            ));
+//            userRepository.save(user);
+//            return null;
+//        }
+        return null;
     }
 
     @Override
