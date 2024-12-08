@@ -23,4 +23,5 @@ public interface ProductService {
     public List<Product> searchByName(String name);
     public String updateStock(Integer id, int newStock);
     public List<Product> searchByCategory(String category);
+    public String decreaseStock(Integer productId,int qte);
 }

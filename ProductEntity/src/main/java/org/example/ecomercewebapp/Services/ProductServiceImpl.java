@@ -69,4 +69,9 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findByCategorie(category);
 
     }
+
+    @Override
+    public String decreaseStock(Integer productId,int qte){
+        return null;
+    }
 }

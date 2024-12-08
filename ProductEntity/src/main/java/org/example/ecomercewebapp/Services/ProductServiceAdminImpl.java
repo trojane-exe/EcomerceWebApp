@@ -140,4 +140,19 @@ public class ProductServiceAdminImpl implements ProductService{
 
         return productRepository.findByCategorie(category);
     }
+
+    @Override
+    public String decreaseStock(Integer productId,int qte){
+
+        Product product = productRepository.findById(productId).orElse(null);
+        assert product!=null;
+        if(product.getStock()<=0 ||product.getStock()<qte){
+            return "error";
+        }
+        else{
+            product.setStock(product.getStock()-qte);
+            return "ok";
+        }
+    }
+
 }

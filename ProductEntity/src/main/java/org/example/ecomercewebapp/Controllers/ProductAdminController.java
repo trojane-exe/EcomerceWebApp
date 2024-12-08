@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Data
 @RestController
@@ -47,12 +48,9 @@ public class ProductAdminController {
     }
     @GetMapping("/find-category")
     public ResponseEntity<?> searchByCategory(@RequestParam("categorie") String categorie){
-        Map<String,String> response = new HashMap<>();
         List<Product> products = productService.searchByCategory(categorie);
         if(products.isEmpty()){
             ProductUserController.getResponse();
-            /*response.put("NOT FOUND","Enable to find compatible products");
-            return ResponseEntity.badRequest().body(response);*/
         }
         else{
             return ResponseEntity.ok(products);
@@ -61,9 +59,16 @@ public class ProductAdminController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@RequestParam("id") Integer id){
+    public ResponseEntity<?> findById(@PathVariable("id") Integer id){
         Map<String,String> response = new HashMap<>();
-        String result = productService.sea
+        Product product = productService.getProduct(id);
+        if(product == null){
+            response.put("NOT FOUND","Cant find a product with this id");
+            return ResponseEntity.badRequest().body(response);
+        }
+        else{
+            return ResponseEntity.ok(product);
+        }
     }
 
 
@@ -89,6 +94,20 @@ public class ProductAdminController {
         List<Product>products = productService.allProducts();
 
         return ResponseEntity.ok(products);
+    }
+
+    @PatchMapping("/decreaseStock")
+    public ResponseEntity<?>decreaseStock(@RequestParam("productId")Integer productId,@RequestParam("qte")int qte){
+        Map<String,String> response = new HashMap<>();
+        String result = productService.decreaseStock(productId,qte);
+        if(result.equals("error")){
+            response.put("ERROR","Insufficient product stock");
+            return ResponseEntity.badRequest().body(response);
+        }
+        else{
+            response.put("SUCCESS","Stock updated successfully");
+            return ResponseEntity.ok().body(response);
+        }
     }
 
 
