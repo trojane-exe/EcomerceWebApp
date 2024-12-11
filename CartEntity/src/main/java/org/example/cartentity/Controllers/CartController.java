@@ -2,14 +2,12 @@ package org.example.cartentity.Controllers;
 
 
 import lombok.Data;
+import org.apache.coyote.Response;
 import org.example.cartentity.Services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,17 +29,48 @@ public class CartController {
 
 
     @PostMapping("/create-cart")
-    public ResponseEntity<?>createCart(@RequestParam("userId") Integer userId){
-        Map<String,String> response = new HashMap<>();
+    public ResponseEntity<?>createCart(@RequestParam("userId") Integer userId) {
+        Map<String, String> response = new HashMap<>();
         String result = cartService.createCart(userId);
-        if(result.equals("creation error")){
-            response.put("ERROR","Enable to create the cart try later");
+        if (result.equals("creation error")) {
+            response.put("ERROR", "Enable to create the cart try later");
             return ResponseEntity.badRequest().body(response);
-        }
-        else {
-            response.put("CREATED","Cart created successfully");
+        } else {
+            response.put("CREATED", "Cart created successfully");
             return ResponseEntity.ok().body(response);
         }
+    }
+    @PutMapping("updateCart")
+    public ResponseEntity<?>updateCartQuantity(@RequestParam("userId")Integer userId,@RequestParam("cartItemId")Integer cartItemId,@RequestParam("qte")int qte){
+        Map<String,String> response = new HashMap<>();
+        String result = cartService.updateQte(userId, cartItemId, qte);
+        return switch (result) {
+            case "cart null" -> {
+                response.put("ERROR", "Cart is null");
+                yield ResponseEntity.badRequest().body(response);
+            }
+
+            case "product null" -> {
+                response.put("ERROR", "Product is null");
+                yield ResponseEntity.badRequest().body(response);
+            }
+            case "cartItems null"->{
+                response.put("ERROR","CartItems is null");
+                yield ResponseEntity.badRequest().body(response);
+            }
+            case "error stock"->{
+                response.put("ERROR","insufficient stock");
+                yield ResponseEntity.badRequest().body(response);
+            }
+            case "ok"->{
+                response.put("SUCCESS","Order updated successfully");
+                yield ResponseEntity.ok().body(response);
+            }
+            default ->{
+                response.put("UNEXPECTED ERROR","An unknown error occurred try again later");
+                yield ResponseEntity.badRequest().body(response);
+            }
+        };
     }
 
     @PostMapping("/addToCart")
@@ -59,4 +88,57 @@ public class CartController {
             return ResponseEntity.ok().body(response);
         }
     }
+
+
+
+    @DeleteMapping("/removeItem")
+    public ResponseEntity<?>deleteItem(@RequestParam("userId")Integer userId,@RequestParam("cartItemId")Integer cartItemId){
+        Map<String,String> response = new HashMap<>();
+        String resulat = cartService.removeProductFromCart(userId, cartItemId);
+        return switch (resulat){
+            case "cart null"->{
+                response.put("ERROR","Cart is null");
+                yield ResponseEntity.badRequest().body(response);
+            }
+            case "item null"->{
+                response.put("ERROR","CartItem is null");
+                yield ResponseEntity.badRequest().body(response);
+            }
+            case "ok"->{
+                response.put("SUCCESS","Items is removed ");
+                yield ResponseEntity.ok().body(response);
+            }
+            default -> {
+                response.put("ERROR","UNEXPECTED ERROR ");
+                yield ResponseEntity.badRequest().body(response);
+            }
+        };
+    }
+
+    @DeleteMapping("/cancelCart")
+    public ResponseEntity<?>cancelCart(@RequestParam("userId")Integer userId){
+
+        Map<String,String> response = new HashMap<>();
+        String result = cartService.cancelCart(userId);
+        return switch (result){
+            case "cart null"->{
+                response.put("ERROR","Cart is null");
+                yield ResponseEntity.badRequest().body(response);
+            }
+            case "items null"->{
+                response.put("ERROR","Cart is already empty");
+                yield ResponseEntity.badRequest().body(response);
+            }
+            case "ok"->{
+                response.put("SUCCESS","Cart is canceled");
+                yield ResponseEntity.ok().body(response);
+            }
+            default -> {
+                response.put("WARNING","Unknown error occured");
+                yield ResponseEntity.badRequest().body(response);
+            }
+        };
+    }
+
+
 }

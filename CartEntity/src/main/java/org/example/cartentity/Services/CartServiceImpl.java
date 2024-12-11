@@ -13,7 +13,6 @@ import org.example.cartentity.Repositories.CartRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -32,11 +31,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public String addToCart(Integer userId,Integer productId,int qte) {
+    public String addToCart(Integer userId, Integer productId, int qte) {
         ProductDTO product = productFeignClient.getProductById(productId);
         Cart cart = cartRepository.findByUserId(userId);
 
-        if(product!=null) {
+        if (product != null) {
             if (product.getStock() <= 0 || product.getStock() < qte) {
                 return "error stock";
             } else {
@@ -57,67 +56,112 @@ public class CartServiceImpl implements CartService {
 
                 //decrease the added prodict's stock
 
-                productFeignClient.decreaseStock(productId,qte);
+                productFeignClient.decreaseStock(productId, qte);
                 //productFeignClient.updateStock();
 
                 return "ok";
 
             }
-        }
-        else {
+        } else {
             return "error";
         }
     }
 
 
-
     @Override
     public String createCart(Integer userId) {
         Cart cart1 = cartRepository.findByUserId(userId);
-        if(cart1 == null) {
-            cart1= new Cart();
+        if (cart1 == null) {
+            cart1 = new Cart();
             cart1.setUserId(userId);
             cart1.setCreatedAt(LocalDateTime.now());
             cart1.setStatus(StatusEnum.Empty);
             cartRepository.save(cart1);
             return "created";
-        }
-        else{
+        } else {
             return "creation error";
         }
     }
 
     @Override
-    public String updateQte(Integer cartId,Integer cartItemId,int qte) {
+    public String updateQte(Integer userId, Integer cartItemId, int qte) {
 
-        Cart cart = cartRepository.findById(cartId).orElseThrow(()->new IllegalArgumentException("Cart not found"));
-        assert cart!=null;
-        CartItems cartItems = cartItemsRepository.findById(cartItemId).filter(item -> item.getCart().getCartId().equals(cartId)).orElse(null);
-        assert cartItems != null;
+        Cart cart = cartRepository.findByUserId(userId);
+        if (cart == null) {
+            return "cart null";
+        }
+        CartItems cartItems = cartItemsRepository.findById(cartItemId)
+                .filter(item -> item.getCart().getCartId()
+                        .equals(cart.getCartId())).orElse(null);
+        if (cartItems == null) {
+            return "cartItems null";
+        }
         Integer productId = cartItems.getProductId();
         ProductDTO productDTO = productFeignClient.getProductById(productId);
-        assert productDTO!=null;
-        if(productDTO.getStock()<=0 || productDTO.getStock()<qte){
-            return "error stock";
+        if (productDTO == null) {
+            return "product null";
         }
-        else{
+        int realStock = productDTO.getStock() + cartItems.getQuantity();
+        if (realStock < qte) {
+            return "error stock";
+        } else {
+            int newStock = realStock - qte;
             cartItems.setQuantity(qte);
             cartItemsRepository.save(cartItems);
+            productFeignClient.updateStock(productId, newStock);
+            return "ok";
         }
 
-
-        return null;
     }
 
     @Override
-    public String removeProductFromCart(Integer cartId,Integer cartItemId) {
-        Cart cart = cartRepository.findById(cartId).orElse(null);
-        assert cart!=null;
-        CartItems cartItems = cartItemsRepository.findById(cartItemId).filter(item ->item.getCart().getCartId().equals(cartId)).orElse(null);
-        assert cartItems!=null;
-        cartItemsRepository.deleteById(cartItemId);
-
-
-        return null;
+    public String removeProductFromCart(Integer userId, Integer cartItemId) {
+        Cart cart = cartRepository.findByUserId(userId);
+        if (cart == null) {
+            return "cart null";
+        }
+        CartItems cartItems = cartItemsRepository.findById(cartItemId).filter(item -> item.getCart().getCartId().equals(cart.getCartId())).orElse(null);
+        if (cartItems == null) {
+            return "item null";
+        } else {
+            ProductDTO productDTO = productFeignClient.getProductById(cartItems.getProductId());
+            if (productDTO != null) {
+                int newStock = productDTO.getStock() + cartItems.getQuantity();
+                productFeignClient.updateStock(productDTO.getProductId(), newStock);
+            }
+            cartItemsRepository.deleteById(cartItemId);
+            List<CartItems> cartItems1 = cartItemsRepository.findAllByCartId(cart.getCartId());
+            if(cartItems1==null){
+                cart.setStatus(StatusEnum.Empty);
+                cartRepository.save(cart);
+            }
+            return "ok";
+        }
     }
+
+    @Override
+    public String cancelCart(Integer userId) {
+        Cart cart = cartRepository.findByUserId(userId);
+        if (cart == null) {
+            return "cart null";
+        } else {
+            List<CartItems> items = cartItemsRepository.findAllByCartId(cart.getCartId());
+            if (items == null) {
+                return "items null";
+            } else {
+                for (CartItems items1 : items) {
+                    ProductDTO productDTO = productFeignClient.getProductById(items1.getProductId());
+                    if (productDTO != null) {
+                        int newStock = productDTO.getStock() + items1.getQuantity();
+                        productFeignClient.updateStock(productDTO.getProductId(), newStock);
+                    }
+                    cartItemsRepository.deleteById(items1.getId());
+                    cart.setStatus(StatusEnum.Empty);
+                    cartRepository.save(cart);
+                }
+                return "ok";
+            }
+        }
+    }
+
 }

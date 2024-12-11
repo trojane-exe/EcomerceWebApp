@@ -12,4 +12,7 @@ public interface CartRepository extends JpaRepository<Cart,Integer> {
     @Query("select c from Cart c where c.userId =:id")
     Cart findByUserId(@Param("id")Integer id);
 
+
+
+
 }
