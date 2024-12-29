@@ -1,0 +1,34 @@
+<head>
+    <link rel="stylesheet" href="navbar2.component.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <header id="header-sidebar" class="nav-text"> <i class="bi bi-shop" style="margin-right: 10px;"></i><span class="nav-text">Pick & Click</span></header>
+        <div class="nav-item-divider"></div>
+        <nav class="sidebar2">
+            <a routerLink="/dashboard" class="dashboard-nav-item"><i class="bi bi-house" style="margin-right: 10px;"></i><span class="nav-text">Dashboard</span></a>
+            <a routerLink="/users" class="dashboard-nav-item"><i class="bi bi-people" style="margin-right: 10px;"></i> <span class="nav-text">Users</span></a>
+            
+            <div class="dashboard-nav-dropdown">
+
+            <a href="#" class="dashboard-nav-item">
+              <i class="bi bi-bag-heart" style="margin-right: 10px;"></i> <span class="nav-text">Products</span>
+            </a>
+            <div class="dashboard-nav-dropdown-menu">
+                <a href="#" class="dashboard-nav-dropdown-item">Available products</a>
+                <a href="#" class="dashboard-nav-dropdown-item">Out of stock products</a>
+                <a href="#" class="dashboard-nav-dropdown-item">Stock management</a>
+            </div>
+            </div>
+
+            <a href="#" class="dashboard-nav-item"><i class="bi bi-cart-check" style="margin-right: 10px;"></i> <span class="nav-text">Orders</span></a>
+            <a href="#" class="dashboard-nav-item"><i class="bi bi-credit-card" style="margin-right: 10px;"></i><span class="nav-text"> Payements</span></a>
+        <div class="nav-item-divider"></div>
+        <div id="footer-sidebar"><i class="bi bi-power" style="margin-right: 10px;"></i> <span class="nav-text">Log out</span></div>
+    </nav>
+    </div>
+    
+
+
+</body>

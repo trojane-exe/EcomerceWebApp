@@ -1,0 +1,91 @@
+/* Sidebar Styling */
+app-navbar2 {
+    width: 70px; /* Initial width of the sidebar */
+    transition: width 0.3s ease-in-out;
+  }
+  
+  app-navbar2:hover {
+    width: 250px; /* Expand width when hovering */
+  }
+  
+  /* Main Content Styling */
+  .main-content {
+    margin-top: 60px;
+    margin-left: 70px; /* Default margin for the sidebar */
+    transition: margin-left 0.3s ease-in-out;
+  }
+  
+  /* When the sidebar is hovered, shift the main content */
+  app-navbar2:hover + .main-content {
+    margin-left: 250px; /* Adjust margin when sidebar expands */
+  }
+
+  app-navbar2:hover + .main-content .navbar {
+    left: 250px; /* Adjust navbar when sidebar is expanded */
+  }
+  
+  
+  
+  /* Card Styling */
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    overflow: auto;
+  }
+  
+  .card {
+    width: 200px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+  }
+  
+  .card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    color: #555;
+  }
+  
+
+
+
+
+  /*searchbar css */
+
+  .navbar {
+    position: fixed;
+    top: 5px;
+    left: 70px; /* Adjusted based on sidebar width */
+    right: 5px;
+    background-color: #e3f2fd;
+    border-radius: 15px;
+    z-index: 1000; /* Ensure the navbar stays on top of other content */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    transition: left 0.3s ease 0.1s; /* Smooth transition for left position */
+  }
+  .navbar .form-inline {
+    display: flex;
+    align-items: center;
+  }
+  .navbar input[type="search"] {
+    border-radius: 25px;
+    margin-right: 10px;
+    margin-bottom: 2px;
+  }
+  
+  /* Search icon style */
+  .navbar i {
+    font-size: 25px;
+  }
+  

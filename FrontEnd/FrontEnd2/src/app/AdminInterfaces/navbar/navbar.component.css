@@ -1,0 +1,29 @@
+.navbar {
+  position: fixed;
+  top: 5px;
+  left: 70px; /* Adjusted based on sidebar width */
+  right: 5px;
+  background-color: #e3f2fd;
+  border-radius: 15px;
+  z-index: 1000; /* Ensure the navbar stays on top of other content */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  transition: left 0.3s ease 0.1s;
+}
+
+.navbar .form-inline {
+  display: flex;
+  align-items: center;
+}
+
+.navbar input[type="search"] {
+  border-radius: 25px;
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
+
+.navbar i {
+  font-size: 25px;
+}

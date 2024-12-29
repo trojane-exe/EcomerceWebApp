@@ -1,0 +1,138 @@
+/* Sidebar Styling */
+app-navbar2 {
+    width: 70px;
+    transition: width 0.3s ease-in-out;
+}
+
+app-navbar2:hover {
+    width: 250px;
+}
+
+.main-content {
+    margin-top: 60px;
+    margin-left: 70px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+app-navbar2:hover + .main-content {
+    margin-left: 250px;
+}
+
+app-navbar2:hover + .main-content .navbar {
+    left: 250px;
+}
+
+/* Navbar Styling */
+.navbar {
+    position: fixed;
+    top: 5px;
+    left: 70px;
+    right: 5px;
+    background-color: #e3f2fd;
+    border-radius: 15px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    transition: left 0.3s ease 0.1s;
+}
+
+.navbar .form-inline {
+    display: flex;
+    align-items: center;
+}
+
+.navbar input[type="search"] {
+    border-radius: 25px;
+    margin-right: 10px;
+    margin-bottom: 2px;
+}
+
+.navbar i {
+    font-size: 25px;
+}
+
+/* Right Button Section */
+.right {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.adduser {
+    background-color: #61bdff;
+    border-color: #61bdff;
+    margin-top: 10px;
+    text-align: right;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 1s ease;
+    animation: autoHover 2s infinite alternate-reverse;
+}
+
+@keyframes autoHover {
+    0% {
+        background-color: #007bff;
+    }
+    100% {
+        background-color: #ff6347;
+    }
+}
+
+/* Table Styling */
+table {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #f1f1f1;
+}
+
+th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+th {
+    font-weight: bold;
+}
+
+td {
+    vertical-align: middle;
+}
+
+.initials {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 8px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #a1a1a1;
+}
+
+.action-button:hover {
+    color: #ff6347;
+}

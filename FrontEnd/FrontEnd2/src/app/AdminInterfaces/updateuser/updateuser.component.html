@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <link rel="stylesheet" href="updateuser.component.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>User Details</h2>
+        <p>Fill all the required fields to proceed</p>
+        <form>
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" required>
+            </div>
+            <div class="form-group">
+                <label>Prenom</label>
+                <input type="text" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" required>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <div class="toggle-container">
+                    <input type="checkbox" id="toggle" class="toggle-checkbox">
+                    <label for="toggle" class="toggle-label">
+                        <span class="toggle-button">
+                            <span class="toggle-text">USER</span>
+                            <span class="toggle-text">ADMIN</span>
+                            <input type="hidden" name="role" id="role" value="User">
+                        </span>
+                        <span class="toggle-handle"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" required>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" required>
+            </div>
+            <div class="center">
+            <button class="btn-submit"><i class="bi bi-bookmark-check">Update</i></button>
+            <button style="margin-left: 10px;" class="btn-submit"><i class="bi bi-bookmark-dash" >Cancel</i></button>
+        </div>
+        </form>
+    </div>
+</body>
+</html>
