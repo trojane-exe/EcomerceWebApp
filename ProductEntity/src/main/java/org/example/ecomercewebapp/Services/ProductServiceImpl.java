@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Blob;
 import java.util.List;
 
 @Service
@@ -71,7 +72,32 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public List<Product> availableProducts() {
+        return null;
+    }
+
+    @Override
+    public List<Product> outOfStockeProducts() {
+        return null;
+    }
+
+    @Override
     public String decreaseStock(Integer productId,int qte){
+        return null;
+    }
+
+    @Override
+    public String getImage(Integer productId) {
+        return null;
+    }
+
+    @Override
+    public String updateProductNoImg(Integer id, Product product) {
+        return null;
+    }
+
+    @Override
+    public Integer outStock() {
         return null;
     }
 }

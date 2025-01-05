@@ -58,6 +58,11 @@ public class ProductAdminController {
         return null;
     }
 
+
+    @GetMapping("img")
+    public ResponseEntity<String>getImage(@RequestParam("productId")Integer productId){
+        return ResponseEntity.ok(productService.getImage(productId));
+    }
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Integer id){
         Map<String,String> response = new HashMap<>();
@@ -71,6 +76,10 @@ public class ProductAdminController {
         }
     }
 
+    @GetMapping("/numberOut")
+    public ResponseEntity<Integer> getOutCount(){
+        return ResponseEntity.ok(productService.outStock());
+    }
 
     @PutMapping("/update-stock/{id}")
         public ResponseEntity<?>updateStock(@PathVariable("id") Integer id ,@RequestParam("stock") int stock) {
@@ -89,6 +98,8 @@ public class ProductAdminController {
         };
     }
 
+
+
     @GetMapping("")
     public ResponseEntity<List<Product>> getAllProducts(){
         List<Product>products = productService.allProducts();
@@ -96,6 +107,18 @@ public class ProductAdminController {
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<List<Product>> getAvailableProducts(){
+        List<Product>products = productService.availableProducts();
+
+        return ResponseEntity.ok(products);
+    }
+    @GetMapping("/out")
+    public ResponseEntity<List<Product>> getOutProducts(){
+        List<Product>products = productService.outOfStockeProducts();
+
+        return ResponseEntity.ok(products);
+    }
     @PutMapping("/decreaseStock")
     public ResponseEntity<?>decreaseStock(@RequestParam("productId")Integer productId,@RequestParam("qte")int qte){
         Map<String,String> response = new HashMap<>();
@@ -116,27 +139,6 @@ public class ProductAdminController {
 
         Map<String,String> response = new HashMap<>();
         String result = productService.addProduct(product,img);
-//        if(result.equals("missing fields")){
-//            response.put("ERROR","Enable to add the product :" +
-//                    "Missing fields");
-//            return ResponseEntity.badRequest().body(response);
-//
-//        }
-//        else if(result.equals("error image")){
-//            response.put("ERROR","Enable to add the product :" +
-//                    "Invalid image type");
-//            return ResponseEntity.badRequest().body(response);
-//        } else if (result.equals("saved with image")) {
-//            response.put("SUCCESS","Product added successfully");
-//            return ResponseEntity.ok().body(response);
-//
-//        } else if (result.equals("saved without image")) {
-//            response.put("SUCCESS","Product added without image");
-//            return ResponseEntity.ok().body(response);
-//        }
-//        else {
-//            return  ResponseEntity.badRequest().build();
-//        }
         return switch (result) {
             case "missing fields" -> {
                 response.put("ERROR", "Enable to add the product :" +
@@ -175,6 +177,20 @@ public class ProductAdminController {
             response.put("ENABLE TO UPDATE","Invalid inputs");
             return ResponseEntity.badRequest().body(response);
         }
+    }
 
+
+    @PutMapping("/update-product-noImg/{id}")
+    public ResponseEntity<?>updateProductNoImg(@PathVariable("id") Integer id,@ModelAttribute Product product) throws IOException {
+        Map<String,String> response = new HashMap<>();
+        String result = productService.updateProductNoImg(id,product);
+        if(result.equals("ok")){
+            response.put("SUCCESS","Product updated successfully");
+            return ResponseEntity.ok().body(response);
+        }
+        else{
+            response.put("ENABLE TO UPDATE","Invalid inputs");
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 }

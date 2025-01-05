@@ -18,4 +18,18 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
 
 
 
+    @Query("select p.image from Product p where p.productId=:productId")
+    String getImage(@Param("productId") Integer productId);
+
+    @Query("select p from Product p where p.stock>0")
+    List<Product> availableProducts();
+    @Query("select p from Product p where p.stock=0")
+    List<Product> outOfStockProducts();
+
+    @Query("select count(p) from Product p where p.stock = 0")
+    Integer outStock();
+
+
+
+
 }

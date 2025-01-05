@@ -8,9 +8,12 @@ import org.example.ecomercewebapp.Model.Product;
 import org.example.ecomercewebapp.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Blob;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +65,7 @@ public class ProductServiceAdminImpl implements ProductService{
     }
 
     @Override
-    public String updateProduct(Integer id, Product product,MultipartFile file) throws IOException {
+    public String updateProduct(Integer id, Product product, @RequestPart(value = "img", required = false) MultipartFile file) throws IOException {
 
 
         Product oldproduct = productRepository.findById(id).orElse(null);
@@ -89,11 +92,48 @@ public class ProductServiceAdminImpl implements ProductService{
                 if(isValidImageType(file.getContentType())){
                     oldproduct.setImage(file.getBytes());
                 }
+
             }
             productRepository.save(oldproduct);
             return "ok";
         }
     }
+
+    @Override
+    public String updateProductNoImg(Integer id, Product product) {
+
+        Product oldproduct = productRepository.findById(id).orElse(null);
+        if (oldproduct == null) {
+            return "error";
+        } else {
+            if (product.getNom() != null) {
+                oldproduct.setNom(product.getNom());
+            }
+            if (product.getDescription() != null) {
+                oldproduct.setDescription(product.getDescription());
+            }
+            if (product.getCategorie() != null) {
+                oldproduct.setCategorie(product.getCategorie());
+            }
+            if (product.getPrix() != null && !(product.getPrix() < 0)) {
+                oldproduct.setPrix(product.getPrix());
+            }
+            if (product.getStock() != null && !(product.getStock() < 0)) {
+                oldproduct.setStock(product.getStock());
+            }
+            if (product.getImage() != null) {
+                oldproduct.setImage(Base64.getDecoder().decode(product.getImage()));
+            }
+            productRepository.save(oldproduct);
+            return "ok";
+        }
+    }
+
+    @Override
+    public Integer outStock() {
+        return productRepository.outStock();
+    }
+
 
     @Override
     public String deleteProduct(Integer id) {
@@ -142,6 +182,16 @@ public class ProductServiceAdminImpl implements ProductService{
     }
 
     @Override
+    public List<Product> availableProducts() {
+        return productRepository.availableProducts();
+    }
+
+    @Override
+    public List<Product> outOfStockeProducts() {
+        return productRepository.outOfStockProducts();
+    }
+
+    @Override
     public String decreaseStock(Integer productId,int qte){
 
         Product product = productRepository.findById(productId).orElse(null);
@@ -153,6 +203,15 @@ public class ProductServiceAdminImpl implements ProductService{
             product.setStock(product.getStock()-qte);
             return "ok";
         }
+    }
+
+    @Override
+    public String getImage(Integer productId) {
+        Product product = productRepository.findById(productId).orElse(null);
+
+        assert product != null;
+
+        return Base64.getEncoder().encodeToString(product.getImage());
     }
 
 }
