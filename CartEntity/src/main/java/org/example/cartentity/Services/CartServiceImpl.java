@@ -10,9 +10,11 @@ import org.example.cartentity.Model.ProductDTO;
 import org.example.cartentity.Model.StatusEnum;
 import org.example.cartentity.Repositories.CartItemsRepository;
 import org.example.cartentity.Repositories.CartRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Data
@@ -43,6 +45,9 @@ public class CartServiceImpl implements CartService {
                 cartItems.setCart(cart);
                 cartItems.setProductId(productId);
                 cartItems.setQuantity(qte);
+
+                cartItems.setPrix(product.getPrix());
+                cartItems.setImgUrl(this.getProductImg(productId));
                 cartItemsRepository.save(cartItems);
                 cart.setUpdatedAt(LocalDateTime.now());
                 cart.setStatus(StatusEnum.Active);
@@ -50,6 +55,7 @@ public class CartServiceImpl implements CartService {
                     cart.setCartItems(new ArrayList<>());
                 }
                 cart.getCartItems().add(cartItems);
+                cartItems.setTotal(product.getPrix()*qte);
 
                 // Save the updated Cart entity
                 cartRepository.save(cart);
@@ -107,6 +113,7 @@ public class CartServiceImpl implements CartService {
         } else {
             int newStock = realStock - qte;
             cartItems.setQuantity(qte);
+            cartItems.setTotal(productDTO.getPrix()*qte);
             cartItemsRepository.save(cartItems);
             productFeignClient.updateStock(productId, newStock);
             return "ok";
@@ -162,6 +169,43 @@ public class CartServiceImpl implements CartService {
                 return "ok";
             }
         }
+    }
+
+    @Override
+    public String deleteCart(Integer userId) {
+        Cart cart = cartRepository.findByUserId(userId);
+        if(cart!=null){
+            cartRepository.deleteById(cart.getCartId());
+            return "deleted";
+        }
+        else {
+            return "error";
+        }
+    }
+
+    @Override
+    public List<CartItems> getUserCartItems(Integer userId) {
+        return cartItemsRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public String getProductImg(Integer productId) {
+        if(productFeignClient.getImage(productId)!=null){
+        return productFeignClient.getImage(productId);}
+        else return null;
+
+
+
+    }
+
+    @Override
+    public Float totalToPay(Integer id) {
+        return cartItemsRepository.totalToPay(id);
+    }
+
+    @Override
+    public Integer getCartId(Integer id) {
+        return cartRepository.findCartIdOfUser(id);
     }
 
 }

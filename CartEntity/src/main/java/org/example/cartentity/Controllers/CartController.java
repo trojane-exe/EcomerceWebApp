@@ -2,7 +2,7 @@ package org.example.cartentity.Controllers;
 
 
 import lombok.Data;
-import org.apache.coyote.Response;
+import org.example.cartentity.Model.CartItems;
 import org.example.cartentity.Services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -26,6 +27,18 @@ public class CartController {
     public CartController(CartService cartService) {
         this.cartService = cartService;
     }
+
+
+    @GetMapping("/items")
+    public ResponseEntity<List<CartItems>> getUserCartItems(@RequestParam("userId") Integer userId){
+        return ResponseEntity.ok(cartService.getUserCartItems(userId));
+    }
+
+    @GetMapping("/cartId")
+    public ResponseEntity<Integer> getCArtId(@RequestParam("userId")Integer userId){
+        return ResponseEntity.ok(cartService.getCartId(userId));
+    }
+
 
 
     @PostMapping("/create-cart")
@@ -138,7 +151,28 @@ public class CartController {
                 yield ResponseEntity.badRequest().body(response);
             }
         };
+
+
+
     }
 
+    @DeleteMapping("/deleteCart/{id}")
+    public ResponseEntity<?>deleteCart(@PathVariable("id") Integer userId){
+        Map<String,String>response = new HashMap<>();
+        String result = cartService.deleteCart(userId);
+        if(result.equals("deleted")){
+            response.put("Deleted","Cart deleted");
+            return ResponseEntity.ok(response);
+        }
+        else{
+            response.put("ERROR","NOT DELETED");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @GetMapping("/totalToPay")
+    public ResponseEntity<Float> totalToPay(@RequestParam("userId")Integer userId){
+        return ResponseEntity.ok(cartService.totalToPay(userId));
+    }
 
 }

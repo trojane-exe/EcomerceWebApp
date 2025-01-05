@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.w3c.dom.Text;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +19,12 @@ public class CartItems {
     @JoinColumn(name = "cart_Id", nullable = false)
     private Cart cart;
     private Integer productId;
+    private Float prix;
     private Integer quantity;
+    @Lob
+    private String imgUrl;
+
+    private Float total;
 
 
 }

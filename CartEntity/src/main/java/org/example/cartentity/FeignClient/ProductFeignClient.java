@@ -4,6 +4,7 @@ package org.example.cartentity.FeignClient;
 import jakarta.ws.rs.Path;
 import org.example.cartentity.Model.ProductDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "product-service", url = "localhost:8081/api/product")
@@ -20,6 +21,11 @@ public interface ProductFeignClient {
 
     @GetMapping("/{id}")
     ProductDTO getProductById(@PathVariable("id") Integer id);
+
+
+
+    @GetMapping("img")
+    public String getImage(@RequestParam("productId")Integer productId);
 
 
 

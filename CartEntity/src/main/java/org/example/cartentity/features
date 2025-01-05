@@ -19,3 +19,9 @@ for this code , i must check if it will actually get the cartId automatically ri
 
 
 tomorrow inchaalah I need to add a new product stock methode where i update the stock in order to decrease it by the quantity added to cart
+
+
+
+
+!!!!!
+to add a chart in the admin dashboard i need to add another methode in the product microservices to rerieve the most added products to carts to display a percentage of them

@@ -14,4 +14,14 @@ public interface CartItemsRepository extends JpaRepository<CartItems,Integer> {
 
     @Query("select i from CartItems i where i.cart.cartId =:id")
     List<CartItems>findAllByCartId(@Param("id")Integer id);
+
+    @Query("select i from CartItems i where i.cart.userId =:id")
+    List<CartItems>findAllByUserId(@Param("id")Integer id);
+
+    @Query("select sum(c.total) from CartItems c where c.cart.userId =:userId")
+    Float totalToPay(@Param("userId")Integer id);
+
+
+
+
 }

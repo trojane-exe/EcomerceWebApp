@@ -1,5 +1,6 @@
 package org.example.cartentity.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Cart {
     @Column(unique = true)
     private Integer userId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<CartItems> cartItems ;
 
