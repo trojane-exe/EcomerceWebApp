@@ -1,0 +1,51 @@
+<!-- Floating Button -->
+<div class="floating-button" (click)="toggleSidebar()" [class.expanded]="isSidebarOpen">
+  <i class="bi bi-cart3"></i>
+</div>
+
+<!-- Sidebar Content -->
+<div class="sidebar-content" *ngIf="isSidebarOpen">
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
+    <h3>Your Cart Items</h3>
+    <span class="close-button" (click)="toggleSidebar()">
+      <i class="bi bi-x-circle"></i>
+    </span>
+  </div>
+
+  <div>
+  <!-- Cart Items Container -->
+  <div class="cart-item-container">
+    <!-- Cart Items -->
+    <div class="cart-item" *ngFor="let itm of cartitems">
+      <input type="number" hidden [(ngModel)]="itm.cartId" name="cartid" id="">
+      <div class="image-box" [style.background-image]="'url(' + 'data:image/png;base64,' + itm.imgUrl + ')'"></div>
+      <div>
+        <span style="color: black;">Order : {{itm.id}}</span>
+        <div class="d-flex flex-row product-desc">
+          <div class="size mr-1">
+            <span class="text-black">Unity price:</span>
+            <span class="font-weight-bold text-black">{{ itm.prix }} MAD</span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row align-items-center qty" style="color: black;">
+        <i class="fa fa-minus text-danger" style="color: black;"></i>
+        <input style="width: 50px;" type="number" class="text-grey mt-1 mx-1" [(ngModel)]="itm.quantity" min="1">
+        <i class="fa fa-plus text-success"></i>
+      </div>
+      <div>
+        <h5 class="text-black"><i class="bi bi-pencil-square" style="cursor:pointer;" (click)="updateQte(userId,itm.id,itm.quantity)"></i></h5>
+      </div>
+      <div>
+        <h5 class="text-black"><i class="bi bi-x-square" style="cursor:pointer;" (click)="deleteItem(userId,itm.id)"></i></h5>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Button -->
+  <div class="payement">
+    <button class="btn btn-info" (click)="proceedToPayement()">Pay</button>
+  </div>
+</div>
+</div>

@@ -1,0 +1,42 @@
+<div class="list-container">
+    <app-user-side-bar></app-user-side-bar>
+    
+    <div class="main-content">
+        <nav class="navbar">
+            <span>Welcome Admin</span>
+            <form class="form-inline">
+              <input
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                style="border-radius: 25px; margin-right: 10px; margin-bottom: 2px;">
+              <i class="bi bi-search" style="font-size: 25px;"></i>
+            </form>
+          </nav>
+        <div style="margin-right: 10px; padding: 20px;">
+          <table >
+            <thead>
+                <th>Identifiant</th>
+                <th>Total</th>
+                <th>Status</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let f of payement">
+                    
+                    <td>{{f.factureId}}</td>
+                    <td>{{f.total}}</td>
+                    <td>{{f.status}}</td>
+                
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+
+    </div>
+
+
+
+    
+</div>

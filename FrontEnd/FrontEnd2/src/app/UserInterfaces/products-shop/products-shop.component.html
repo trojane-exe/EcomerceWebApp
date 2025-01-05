@@ -1,0 +1,103 @@
+<app-user-side-bar></app-user-side-bar>
+
+<div class="main-content">
+  
+    <nav class="navbar">
+        <span>
+          Welcome 
+          <ng-container *ngIf="user.nom; else loading"> 
+            {{ user.nom }}
+          </ng-container>
+          <ng-template #loading>
+            Loading...
+          </ng-template>
+        </span>
+        <form class="form-inline">
+          <input
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            style="border-radius: 25px; margin-right: 10px; margin-bottom: 2px;"
+            name="nom"
+            [(ngModel)]="searchQuery" >
+          <i class="bi bi-search" style="font-size: 25px;"></i>
+        </form>
+      </nav>
+
+      <app-cart></app-cart>
+
+      
+
+
+
+<div class="container" style="margin-left: -30px;">
+  
+  <div class="cards-wrapper">
+
+    
+    <div *ngFor="let p of products |filter:searchQuery" class="card-container" [ngClass]="{'disabled': p.stock === 0}" >
+      <!-- Product Wrapper -->
+      <div class="wrapper" >
+        <!-- Product Banner -->
+        <div class="banner-image" [style.background-image]="'url(' + 'data:image/png;base64,' + p.image + ')'"></div>
+        
+        <!-- Product Details -->
+        <h1>{{ p.nom }}</h1>
+        <p>{{ p.description }}</p>
+      </div>
+  
+      <!-- Product Category -->
+      <div class="category">{{ p.categorie }}</div>
+      <div class="category" *ngIf="p.stock==0" style="color: red; font-weight: bold;">OUT OF STOCK</div>
+      <div class="category"> Current Stock : {{ p.stock }}</div>
+  
+      <!-- Quantity Selector -->
+      <div class="button-wrapper quantity-selector">
+        <i  class="bi bi-dash-circle-fill"(click)="decrease(p.productId)"></i>
+        <input type="number" style="width: 50px; border-radius: 15px;" [(ngModel)]="qte[p.productId]" >
+        <i class="bi bi-plus-circle-fill" (click)="increase(p.productId)"></i>
+      </div>
+  
+      <!-- Add to Cart Button -->
+      <div class="button-wrapper">
+        <button class="btn fill" (click)="addToCart(userId,p.productId,qte[p.productId])">ADD TO CART</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<script>
+    const button = document.getElementById("floating-button");
+
+let isDragging = false;
+let offsetX, offsetY;
+
+// Start dragging
+button.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    offsetX = e.clientX - button.getBoundingClientRect().left;
+    offsetY = e.clientY - button.getBoundingClientRect().top;
+    button.style.cursor = "grabbing";
+});
+
+// Stop dragging
+document.addEventListener("mouseup", () => {
+    isDragging = false;
+    button.style.cursor = "grab";
+});
+
+// Dragging movement
+document.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+        const x = e.clientX - offsetX;
+        const y = e.clientY - offsetY;
+
+        button.style.left = `${x}px`;
+        button.style.top = `${y}px`;
+    }
+});
+
+</script>

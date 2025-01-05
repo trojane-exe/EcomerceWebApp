@@ -16,43 +16,31 @@
           <div class="right">
             <button class="adduser" routerLink="/add-user"><i class="bi bi-person-plus"> add a new user</i></button>
         </div>
-          <table>
+        <div style="margin-right: 10px;">
+          <table >
             <thead>
-                <th>username</th>
+                <th>Identifiant</th>
+                <th>Nom</th>
+                <th>Prenom</th>
                 <th>email</th>
                 <th>role</th>
-                <th>example</th>
-                <th></th>
-                <th></th>
+                <th>delete</th>
+                <th>update</th>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let user of users">
                     
-                    <td><span class="initials" style="background-color: #aed9e0;">AM</span> Adam Monroe</td>
-                    <td>a.monroeuxtivity.com</td>
-                    <td>Team member</td>
-                    <td>Owner</td>
-                    <td><button class="action-button">🗑️</button></td>
-                </tr>
-                <tr>
-                    
-                    <td><span class="initials" style="background-color: #f7c5c4;">EW</span> Emily Wegner</td>
-                    <td>e.wegnerxtivity.com</td>
-                    <td>Team member</td>
-                    <td>Editor</td>
-                    <td><button class="action-button">🗑️</button></td>
-                    <td><button class="action-button">♥</button></td>
-                </tr>
-                <tr>
-                    
-                    <td><span class="initials" style="background-color: #aed9e0;">AM</span> Adam Monroe</td>
-                    <td>a.monroextivity.com</td>
-                    <td>Team member</td>
-                    <td>Owner</td>
-                    <td><button class="action-button">🗑️</button></td>
+                    <td>{{user.userId}}</td>
+                    <td>{{user.nom}}</td>
+                    <td>{{user.prenom}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.role}}</td>
+                    <td><button class="action-button"><i class="bi bi-trash" (click)="openModal(confirmModal,user.userId)"></i></button></td>
+                    <td><button class="action-button" (click)="navigateToUpdate(user.userId)"><i class="bi bi-pencil-square"></i></button></td>
                 </tr>
             </tbody>
           </table>
+        </div>
 
 
 
@@ -62,3 +50,17 @@
 
     
 </div>
+
+
+
+
+
+<ng-template #confirmModal>
+  <div class="modal-body">
+    <h4>Are you sure you want to proceed?</h4>
+    <div class="d-flex justify-content-end" style="margin-bottom: 10px;">
+      <button class="btn btn-danger" style="margin-right: 10px;" (click)="confirmAction()">Yes, Proceed</button>
+      <button class="btn btn-secondary" (click)="cancelAction()">Cancel</button>
+    </div>
+  </div>
+</ng-template>            

@@ -1,57 +1,80 @@
-<html>
-<head>
-    <link rel="stylesheet" href="login.component.css"/>
-</head>
-<body class="form-v10" >
-	<div class="page-content">
-		<div class="form-v10-content">
-			<form class="form-detail" action="#" method="post" id="myform">
-				<div class="form-left">
-					<h2>Login</h2>
-					<div>
-						<div class="form-row form-row-1">
-							<input type="text" name="email" id="email" class="input-text" placeholder="email" required>
-						</div>
-						<div class="form-row form-row-2">
-							<input type="password" name="password" id="password" class="input-text" placeholder="password" required>
-						</div>
-					</div>
-                    <div class="form-row-last">
-                        <input type="submit" name="login" class="login" value="Login">
-                    </div>
-                    
-				</div>
-
-
-
-
-
-
-				
-				<div class="form-right">
-					<h2>New Registration</h2>
-					<div class="form-group">
-						<div class="form-row form-row-1">
-							<input type="text" name="Nom" class="input-text" id="nom" placeholder="nom" required>
-						</div>
-						<div class="form-row form-row-2">
-							<input type="text" name="prenom" class="input-text" id="prenom" placeholder="prenom" required>
-						</div>
-					</div>
-					<div class="form-row">
-						<input type="text" name="your email" id="your_email" class="input-text" required placeholder="Your Email">
-					</div>
-                    <div class="form-row">
-						<input type="password" name="your password" id="your_password" class="input-text" required placeholder="Your Password">
-					</div>
-                    <div class="form-row">
-						<input type="password" name="confirm your password" id="confirm_password" class="input-text" required placeholder="Confirm Your Password">
-					</div>
-					<div class="form-row-last">
-						<input type="submit" name="register" class="register" value="Register">
-					</div>
-				</div>
-			</form>
+<div class="page-content">
+	<div class="form-v10-content">
+	  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="form-detail">
+		<div class="form-left">
+		  <h2>Login</h2>
+		  <div>
+			<div class="form-row form-row-1">
+			  <input type="text" formControlName="email" class="input-text" placeholder="email">
+			  <span class="required">*</span>
+			  <div *ngIf="getLoginFormControl('email')?.invalid && getLoginFormControl('email')?.touched">
+				<small class="text-danger" *ngIf="getLoginFormControl('email')?.errors?.['required']">Email is required.</small>
+				<small class="text-danger" *ngIf="getLoginFormControl('email')?.errors?.['email']">Invalid email format.</small>
+			  </div>
+			</div>
+			<div class="form-row form-row-2">
+			  <input type="password" formControlName="password" class="input-text" placeholder="password">
+			  <span class="required">*</span>
+			  <div *ngIf="getLoginFormControl('password')?.invalid && getLoginFormControl('password')?.touched">
+				<small class="text-danger">Password is required.</small>
+			  </div>
+			</div>
+		  </div>
+		  <div class="form-row-last">
+			<input type="submit" class="login" value="Login">
+		  </div>
 		</div>
+  
+		<div class="form-right">
+		  <h2>New Registration</h2>
+		  <form [formGroup]="registrationForm" (ngSubmit)="onRegisterSubmit()">
+			<div class="form-group">
+			  <div class="form-row form-row-1">
+				<input type="text" formControlName="nom" class="input-text" placeholder="nom">
+				<span class="required">*</span>
+				<div *ngIf="getRegistrationFormControl('nom')?.invalid && getRegistrationFormControl('nom')?.touched">
+				  <small class="text-danger">Nom is required.</small>
+				</div>
+			  </div>
+			  <div class="form-row form-row-2">
+				<input type="text" formControlName="prenom" class="input-text" placeholder="prenom">
+				<span class="required">*</span>
+				<div *ngIf="getRegistrationFormControl('prenom')?.invalid && getRegistrationFormControl('prenom')?.touched">
+				  <small class="text-danger">Prenom is required.</small>
+				</div>
+			  </div>
+			</div>
+			<div class="form-row">
+			  <input type="text" formControlName="your_email" class="input-text" placeholder="Your Email">
+			  <span class="required">*</span>
+			  <div *ngIf="getRegistrationFormControl('your_email')?.invalid && getRegistrationFormControl('your_email')?.touched">
+				<small class="text-danger" *ngIf="getRegistrationFormControl('your_email')?.errors?.['required']">Email is required.</small>
+				<small class="text-danger" *ngIf="getRegistrationFormControl('your_email')?.errors?.['email']">Invalid email format.</small>
+			  </div>
+			</div>
+			<div class="form-row">
+			  <input type="password" formControlName="your_password" class="input-text" placeholder="Your Password">
+			  <span class="required">*</span>
+			  <div *ngIf="getRegistrationFormControl('your_password')?.invalid && getRegistrationFormControl('your_password')?.touched">
+				<small class="text-danger">Password is required.</small>
+			  </div>
+			</div>
+			<div class="form-row">
+			  <input type="password" formControlName="confirm_password" class="input-text" placeholder="Confirm Your Password">
+			  <span class="required">*</span>
+			  <div *ngIf="getRegistrationFormControl('confirm_password')?.invalid && getRegistrationFormControl('confirm_password')?.touched">
+				<small class="text-danger">Confirm Password is required.</small>
+			  </div>
+			  <div *ngIf="registrationForm.errors?.['mismatch']">
+				<small class="text-danger">Passwords do not match.</small>
+			  </div>
+			</div>
+			<div class="form-row-last">
+			  <input type="submit" class="register" value="Register">
+			</div>
+		  </form>
+		</div>
+	  </form>
 	</div>
-</body>
+  </div>
+  

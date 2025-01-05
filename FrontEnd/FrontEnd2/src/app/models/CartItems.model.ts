@@ -3,4 +3,7 @@ export class CartItems{
     productId !: number;
     quantity !: number;
     cartId !: number;
+    imgUrl !: string;
+    prix !: number;
+    total !:number;
 }

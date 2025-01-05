@@ -13,7 +13,15 @@
    
     <div class="main-content">
         <nav class="navbar">
-            <span>Welcome Admin</span>
+            <span>
+              Welcome 
+              <ng-container *ngIf="user.nom; else loading"> 
+                {{ user.nom }}
+              </ng-container>
+              <ng-template #loading>
+                Loading...
+              </ng-template>
+            </span>
             <form class="form-inline">
               <input
                 type="search"
@@ -89,5 +97,12 @@
 
       
 </div>
+
+
+
+
+
+
+<!--modal text dialog -->
 
   

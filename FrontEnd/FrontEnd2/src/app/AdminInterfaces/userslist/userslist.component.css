@@ -71,8 +71,7 @@ app-navbar2:hover + .main-content .navbar {
     line-height: 1.5;
     border-radius: 0.375rem;
     cursor: pointer;
-    transition: background-color 1s ease;
-    animation: autoHover 2s infinite alternate-reverse;
+
 }
 
 @keyframes autoHover {
@@ -86,13 +85,17 @@ app-navbar2:hover + .main-content .navbar {
 
 /* Table Styling */
 table {
+
     margin-top: 10px;
+    margin-right: 20px; /* Add margin to the right */
     width: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    opacity: 0.8;
+    
 }
 
 thead {
@@ -136,3 +139,19 @@ td {
 .action-button:hover {
     color: #ff6347;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

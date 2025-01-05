@@ -1,0 +1,179 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+body {
+font-family: 'Nunito',sans-serif;
+color: #000;
+  }
+
+
+  
+  .sidebar {
+    width: 55px;
+    transition: width 0.2s ease;
+    overflow: hidden;
+    height: 100vh;
+    top: 0;           
+    left: 0;                
+    background-color:rgb(66, 133, 178);
+    color: white;     
+    padding-top: 15px; 
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; 
+    position: fixed;
+    
+  }
+
+  .sidebar2 {
+    top: 0;           
+    left: 0;              
+    height: 100vh;    
+    background-color:rgb(66, 133, 178);
+    color: white;     
+    padding-top: 15px; 
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; 
+    
+  }
+
+
+.navbar{
+  border-radius: 15px;
+  background-color:#e3f2fd
+}
+
+
+.sidebar:hover  {
+  width: 250px;
+}
+
+
+
+
+  
+  .sidebar2:hover{
+    width: 250px;
+    
+  }
+
+
+  .nav-text {
+    display: none; /* Text hidden when sidebar is collapsed */
+    margin-left: 10px;
+    transition: opacity 0.3s ease-in-out; /* Smooth fade-in for text */
+  }
+
+  .sidebar:hover .nav-text  {
+    display: inline; /* Show text when sidebar is expanded */
+    opacity: 1;
+}
+  #header-sidebar{
+    text-align: center;
+    font-size: 30px;
+    display: flex;       
+    text-decoration: none;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    text-decoration: none;
+    
+  }
+
+
+  
+
+
+  /*this is used to make the hover effect when passing the cursor on an element of the sidebar*/
+  .dashboard-nav-item {
+    display: flex;       
+    padding: 15px;        
+    color: white;         
+    text-decoration: none;
+    font-size: 18px;      
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+
+  
+
+
+
+  .nav-item-divider {
+    margin: 10px 0;
+    border-bottom: 1px solid #fff;
+}
+
+.sidebar-bottom {
+    padding: 20px;
+    text-align: center;
+}
+#footer-sidebar{
+    margin-top: auto;
+    display: flex;       /* Make links block elements */
+    padding: 15px;        /* Add padding for clickable area */
+    color: white;         /* White text */
+    text-decoration: none;/* Remove underlines */
+    font-size: 18px;      /* Set font size */
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    text-decoration: none;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* dropdown menu css : */
+
+/* Dropdown Parent Styling */
+.dashboard-nav-dropdown {
+  position: relative; /* Ensure dropdown is positioned relative to this container */
+}
+
+/* Dropdown Menu */
+.dashboard-nav-dropdown-menu {
+  display: none; /* Hide by default */
+  position: absolute; /* Align relative to the parent */
+  top: 100%; /* Place directly below the parent link */
+  left: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+/* Show dropdown when hovering over parent */
+.dashboard-nav-dropdown:hover .dashboard-nav-dropdown-menu {
+  display: block;
+}
+
+/* Dropdown Items */
+.dashboard-nav-dropdown-item {
+  display: block;
+  padding: 5px 10px;
+  color: #333;
+  text-decoration: none;
+}
+.dashboard-nav-dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Ensure hover styles for other items remain intact */
+.dashboard-nav-item:hover {
+  background-color: rgb(139, 177, 203);
+  color: white;
+}
+
+
+

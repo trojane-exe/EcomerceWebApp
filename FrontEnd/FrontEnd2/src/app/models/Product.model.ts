@@ -5,5 +5,5 @@ export class Product{
     prix !: number;
     categorie !: string;
     stock !: number;
-    image !: string;
+    image !: File;
 }

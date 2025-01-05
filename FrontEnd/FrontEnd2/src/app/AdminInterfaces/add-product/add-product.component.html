@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="add-product.component.html">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Product Details</h2>
+        <p>Fill all the required fields to proceed</p>
+        <form (ngSubmit)="addProduct(userForm)" #userForm="ngForm" novalidate autocomplete="off">
+            <div class="form-group">
+              <label>Product name <span style="color: red; font: bold;">*</span></label>
+              <input type="text" required name="nom" [(ngModel)]="product.nom">
+            </div>
+            <div class="form-group">
+              <label>Image </label>
+              <input type="file" required name="img" (change)="validateFile($event)" accept=".png, .jpg, .jpeg">
+            </div>
+            <div class="form-group">
+              <label>Description <span style="color: red; font: bold;">*</span></label>
+              <input type="text" required name="description" [(ngModel)]="product.description">
+            </div>
+            <div class="form-group">
+              <label>Stock <span style="color: red; font: bold;">*</span></label>
+              <input type="number" required id="stck" name="stock" [(ngModel)]="product.stock" min="1">
+            </div>
+            <div class="form-group">
+              <label>Prix <span style="color: red; font: bold;">*</span></label>
+              <input type="number" required id="prix" name="prix" [(ngModel)]="product.prix" min="100">
+            </div>
+            <div class="form-group">
+              <label>Categorie <span style="color: red; font: bold;">*</span></label>
+              <input type="text" required name="categorie" [(ngModel)]="product.categorie">
+            </div>
+            <div class="center">
+              <button class="btn-submit" type="submit"><i class="bi bi-bookmark-check">Submit</i></button>
+              <button style="margin-left: 10px;" class="btn-submit" type="button"><i class="bi bi-bookmark-dash" routerLink="/products">Cancel</i></button>
+            </div>
+          </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<head>
+    <link rel="stylesheet" href="user-side-bar.component.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <header id="header-sidebar" class="nav-text"> <i class="bi bi-shop" style="margin-right: 10px;"></i><span class="nav-text">Pick & Click</span></header>
+        <div class="nav-item-divider"></div>
+        <nav class="sidebar2">
+            <a routerLink="/account" class="dashboard-nav-item"><i class="bi bi-house" style="margin-right: 10px;"></i><span class="nav-text">Account</span></a>
+            <a routerLink="/shop" class="dashboard-nav-item"><i class="bi bi-people" style="margin-right: 10px;"></i> <span class="nav-text">Shop</span></a>
+            <a routerLink="/mycart" class="dashboard-nav-item"><i class="bi bi-cart-check" style="margin-right: 10px;"></i> <span class="nav-text">Cart</span></a>
+            <a routerLink="/orders" class="dashboard-nav-item"><i class="bi bi-cart-check" style="margin-right: 10px;"></i> <span class="nav-text">Orders</span></a>
+            <a routerLink="/payements" class="dashboard-nav-item"><i class="bi bi-credit-card" style="margin-right: 10px;"></i><span class="nav-text"> Payements</span></a>
+        <div class="nav-item-divider"></div>
+        <div id="footer-sidebar" class="dashboard-nav-item"><i class="bi bi-power" style="margin-right: 10px;"></i> <span class="nav-text" (click)="logout()">Log out</span></div>
+    </nav>
+    </div>
+    
+
+
+</body>

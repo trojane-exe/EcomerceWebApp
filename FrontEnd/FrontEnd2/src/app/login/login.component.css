@@ -303,11 +303,9 @@ body {
 }
 
 
-@media (forced-colors: active) {
-    body {
-        background-color: Window;
-        color: WindowText;
-    }
-    /* Add more styles based on forced colors here */
-}
-
+.required {
+    color: red;
+    font-weight: bold;
+    margin-left: 5px;
+  }
+  

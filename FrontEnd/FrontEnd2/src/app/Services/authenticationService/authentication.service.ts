@@ -14,19 +14,19 @@ interface AuthResponse{
 })
 export class AuthenticationService {
 
-  private apiUrl = 'http/localhost:8080/api/auth';
+  private apiUrl = 'http://localhost:8080/api/auth';
   private tokenKey = 'authToken';
   private jwtHelper = new JwtHelperService();
+  
 
-  //
   private authSubject = new BehaviorSubject<boolean>(this.hasToken());
-
-
 
   constructor( private http :HttpClient,private router : Router) { }
 
   login(email:string , password:string): Observable<AuthResponse>{
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`,{email,password});
+    
+    
   }
 
   register(nom:string,prenom:string,email:string,password:string):Observable<AuthResponse>{
@@ -47,6 +47,11 @@ export class AuthenticationService {
 
   hasToken():boolean{
     return !!this.getToken();
+  }
+
+
+  isConnected(): boolean {
+    return this.authSubject.getValue(); // Return the current authentication state
   }
 
   getUserId() :string|null{

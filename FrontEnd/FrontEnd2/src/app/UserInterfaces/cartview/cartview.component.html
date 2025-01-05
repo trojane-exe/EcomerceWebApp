@@ -1,0 +1,78 @@
+<app-user-side-bar></app-user-side-bar>
+
+<div class="main-content">
+  
+    <nav class="navbar">
+        <span>
+          Welcome 
+          <ng-container *ngIf="user.nom; else loading"> 
+            {{ user.nom }}
+          </ng-container>
+          <ng-template #loading>
+            Loading...
+          </ng-template>
+        </span>
+        <form class="form-inline">
+          <input
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            style="border-radius: 25px; margin-right: 10px; margin-bottom: 2px;"
+            name="nom"
+             >
+          <i class="bi bi-search" style="font-size: 25px;"></i>
+        </form>
+      </nav>
+
+      <app-cart></app-cart>
+
+
+    <div class="main-content">
+        <nav class="navbar">
+            <span>
+              Welcome 
+              <ng-container *ngIf="user.nom; else loading"> 
+                {{ user.nom }}
+              </ng-container>
+              <ng-template #loading>
+                Loading...
+              </ng-template>
+            </span>
+            <form class="form-inline">
+              <input
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                style="border-radius: 25px; margin-right: 10px; margin-bottom: 2px;">
+              <i class="bi bi-search" style="font-size: 25px;"></i>
+            </form>
+          </nav>
+
+
+          <div class="container" style="margin-left: -30px;">
+  
+            <div class="cards-wrapper">
+          
+              
+              <div *ngFor="let item of cartItems " class="card-container">
+                <!-- Product Wrapper -->
+                <div class="wrapper">
+                  <!-- Product Banner -->
+                  <div class="banner-image" [style.background-image]="'url(' + 'data:image/png;base64,' + item.imgUrl + ')'"></div>
+                  
+                  <!-- Product Details -->
+                  <h1> Order's number : {{ item.id }}</h1>
+                  <p>Quantity ordered : {{ item.quantity}}</p>
+                </div>
+            
+                <!-- Product Category -->
+                <div class="category"> Total to pay: {{ item.total }}</div>
+            
+                <!-- Quantity Selector -->
+            
+                <!-- Add to Cart Button -->
+
+              </div>
+            </div>
+          </div>
+          </div>

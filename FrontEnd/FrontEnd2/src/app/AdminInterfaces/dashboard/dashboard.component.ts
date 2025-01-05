@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   ApexNonAxisChartSeries,
   ApexPlotOptions,
@@ -7,6 +7,13 @@ import {
   ChartComponent,
   ApexStroke
 } from "ng-apexcharts";
+import { AuthenticationService } from 'src/app/Services/authenticationService/authentication.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/User.model';
+import { UserserviceService } from 'src/app/Services/AdminServices/UserService/userservice.service';
+import { ProductService } from 'src/app/Services/AdminServices/ProductService/product.service';
+import { Product } from 'src/app/models/Product.model';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -22,13 +29,21 @@ export type ChartOptions = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent | undefined;
   public chartOptions: ChartOptions;
 
-  constructor() {
+  user: User = new User();
+  userId!:number ;
+
+  outOfStockProducts : Product[]=[];
+  
+
+  constructor( private authService:AuthenticationService,private toast :ToastrService,private route:Router,
+    private userService : UserserviceService,private productService:ProductService
+  ) {
     this.chartOptions = {
-      series: [97],
+      series: [this.outOfStockProducts.length],
       chart: {
         height: 170,
         type: "radialBar",
@@ -104,5 +119,61 @@ export class DashboardComponent {
       },
       labels: ["Products"]
     };
+  }
+
+  loadProducts(){
+    this.productService.getOutOfStockProducts().subscribe(
+      (response : Product[])=>{
+        this.outOfStockProducts = response
+        console.log(this.outOfStockProducts.length)
+        this.chartOptions.series = [this.outOfStockProducts.length]; 
+      }
+    )    
+  }
+
+  
+  
+  loadUserInfo(id:number):void{
+    this.userService.getSingleUser(id).subscribe({
+    next:(data:User)=>{
+      this.user = data
+      console.log("user nom " +this.user.nom);
+    }
+      })
+  
+    }
+  
+
+  
+
+
+
+  ngOnInit(): void {
+
+    
+    if(this.authService.getRole()==='User'){
+      this.toast.info("Regular users are not allowed to access this page")
+      this.authService.logout();
+      this.route.navigate([''])
+    }
+
+    if(this.authService.isConnected()===false){
+      this.authService.logout();
+      this.route.navigate(['']);
+      this.toast.error("Please log in using you credentials to proceed","",{
+        toastClass:'false-login'
+      })
+    }
+    const id =  localStorage.getItem('userId');
+    if(id){this.userId = parseInt(id,10)}
+    this.loadUserInfo(this.userId);
+    
+    if(this.authService.isConnected()===false){
+      this.route.navigate(['']);
+      this.toast.error("Please log in using you credentials to proceed","",{
+        toastClass:'false-login'
+      })
+    }
+    this.loadProducts()
   }
 }

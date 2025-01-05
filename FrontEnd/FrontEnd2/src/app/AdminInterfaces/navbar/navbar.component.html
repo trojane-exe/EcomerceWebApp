@@ -1,12 +1,19 @@
 <nav class="navbar">
-    <span>Welcome Admin</span>
-    <form class="form-inline">
-      <input
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        style="border-radius: 25px; margin-right: 10px; margin-bottom: 2px;">
-      <i class="bi bi-search" style="font-size: 25px;"></i>
-    </form>
-  </nav>
-  
+  <span>
+    Welcome 
+    <ng-container *ngIf="user.nom; else loading"> 
+      {{ user.nom }}
+    </ng-container>
+    <ng-template #loading>
+      Loading...
+    </ng-template>
+  </span>
+  <form class="form-inline">
+    <input
+      type="search"
+      placeholder="Search"
+      aria-label="Search"
+      style="border-radius: 25px; margin-right: 10px; margin-bottom: 2px;">
+    <i class="bi bi-search" style="font-size: 25px;"></i>
+  </form>
+</nav>
