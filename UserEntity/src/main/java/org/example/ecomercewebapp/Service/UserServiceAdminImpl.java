@@ -119,6 +119,7 @@ public class UserServiceAdminImpl implements UserService{
             return "error";
         }
         else {
+            feignClient.deleteCart(id);
             userRepository.deleteById(id);
             return "ok";
         }
@@ -136,5 +137,11 @@ public class UserServiceAdminImpl implements UserService{
         Optional<Utilisateur> utilisateur = userRepository.findById(id);
         assert utilisateur.isPresent();
         return utilisateur.get();
+    }
+
+    @Override
+    public Integer findIdByEmail(String email) {
+        Optional<Utilisateur> utilisateur = userRepository.findByEmail(email);
+        return utilisateur.map(Utilisateur::getUserId).orElse(null);
     }
 }

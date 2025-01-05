@@ -1,6 +1,7 @@
 package org.example.ecomercewebapp.Controler;
 
 import lombok.Data;
+import org.apache.coyote.Response;
 import org.example.ecomercewebapp.Model.Utilisateur;
 import org.example.ecomercewebapp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+
 @RestController
 @RequestMapping("/api/admin")
 @Validated
+
 
 public class AdminController {
 
@@ -89,5 +92,20 @@ public class AdminController {
             return ResponseEntity.ok().body(response);
         }
 
+    }
+
+
+
+    @GetMapping("/getId")
+    public ResponseEntity<?>getUserIdByemail(@RequestParam String email){
+        Map<String,String> response = new HashMap<>();
+        Integer userId = userService.findIdByEmail(email);
+        if(userId==null){
+            response.put("ERROR","No id was found");
+            return ResponseEntity.badRequest().body(response);
+        }
+        else {
+            return ResponseEntity.ok(userId);
+        }
     }
 }

@@ -109,4 +109,9 @@ public class UserServiceImpl implements UserService{
         return utilisateur.get();
 
     }
+
+    @Override
+    public Integer findIdByEmail(String email){
+        return null;
+    }
 }

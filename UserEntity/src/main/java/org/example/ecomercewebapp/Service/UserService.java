@@ -11,5 +11,6 @@ public interface UserService {
     public String deleteUser(Integer id);
     public List<Utilisateur> listOfUsers();
     public Utilisateur findUser(Integer id);
+    public Integer findIdByEmail(String email);
 
 }

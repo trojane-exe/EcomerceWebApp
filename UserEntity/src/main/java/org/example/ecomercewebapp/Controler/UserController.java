@@ -17,6 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/users")
 @Validated
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class UserController {
 
     private final UserService userService;
